@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import inventory.model.Auth;
 import inventory.model.Menu;
@@ -26,7 +27,12 @@ public class MenuController {
 	@Autowired
 	private RoleService roleService;
 
-	@GetMapping("/menu/list/{page}")
+	@GetMapping(value = { "/menu/list", "/menu/list" })
+	public String redirect() {
+		return "redirect:/menu/list/1";
+	}
+
+	@RequestMapping("/menu/list/{page}")
 	public String menuList(Model model, @PathVariable("page") int page, @ModelAttribute("searchForm") Menu menu) {
 		Paging paging = new Paging(10);
 		paging.setIndexPage(page);
