@@ -1,6 +1,7 @@
 package inventory.controller;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,9 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import inventory.model.Auth;
+import inventory.model.AuthForm;
 import inventory.model.Menu;
 import inventory.model.Paging;
 import inventory.model.Role;
@@ -73,5 +76,39 @@ public class MenuController {
 		}
 
 		return "redirect:/menu/list";
+	}
+
+	@GetMapping("/menu/permission")
+	public String permission(Model model) {
+		model.addAttribute("modelForm", new AuthForm());
+		initSelectBox(model);
+		return "menu-permission";
+	}
+
+	@PostMapping("/menu/update-permission")
+	public String updatePermission(Model model, HttpSession session, @ModelAttribute("modelForm") AuthForm authForm) {
+		try {
+			menuService.updatePermission(authForm);
+			session.setAttribute(Constant.MSG_SUCCESS, "Update success!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute(Constant.MSG_SUCCESS, "Update has error!!!");
+		}
+		return "redirect:/menu/list";
+	}
+
+	private void initSelectBox(Model model) {
+		List<Role> roles = roleService.getRoleList(null, null);
+		List<Menu> menus = menuService.getListMenu(null, null);
+		Map<Integer, String> mapRole = new HashMap<>();
+		Map<Integer, String> mapMenu = new HashMap<>();
+		for (Role role : roles) {
+			mapRole.put(role.getId(), role.getRoleName());
+		}
+		for (Menu menu : menus) {
+			mapMenu.put(menu.getId(), menu.getName());
+		}
+		model.addAttribute("mapRole", mapRole);
+		model.addAttribute("mapMenu", mapMenu);
 	}
 }

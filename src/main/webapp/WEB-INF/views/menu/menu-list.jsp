@@ -15,7 +15,7 @@
 
 
 				<div class="x_content">
-					<a href="<c:url value="/menu/add"/>" class="btn btn-app"><i class="fa fa-plus"></i>Add</a>
+					<a href="<c:url value="/menu/permission"/>" class="btn btn-app"><i class="fa fa-plus"></i>Permission</a>
 					<div class="container" style="padding: 50px;">
 						<form:form modelAttribute="searchForm" cssClass="form-horizontal form-label-left" servletRelativeAction="/menu/list/1" method="POST">
 					
