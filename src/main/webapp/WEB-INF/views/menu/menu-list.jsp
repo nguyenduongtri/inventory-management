@@ -54,10 +54,14 @@
 									<td class=" ">${menu.url }</td>
 									<c:choose>
 										<c:when test="${menu.activeFlag==1 }">
-											<td>Enable</td>
+											<td class="text-center">
+												<a href="javascript:void(0);" onclick="confirmChange(${menu.id}, ${menu.activeFlag});" class="btn btn-round btn-success">Disable</a>
+											</td>
 										</c:when>
 										<c:otherwise>
-											<td>Disable</td>
+											<td class="text-center">
+												<a href="javascript:void(0);" onclick="confirmDelete(${menu.id}, ${menu.activeFlag});" class="btn btn-round btn-danger">Enable</a>
+											</td>
 										</c:otherwise>
 									</c:choose>
 									<c:forEach var="auth" items="${menu.mapAuth}">
@@ -85,6 +89,12 @@
 		 $('#searchForm').attr('action','<c:url value="/menu/list/"/>'+page);
 		 $('#searchForm').submit();
 	 }
+	 function confirmChange(id, flag) {
+		 var msg = flag==1 ? 'Do you want disable this menu ?' : 'Do you want enable this menu';
+			if (confirm(msg)) {
+				window.location.href = '<c:url value="/menu/change-status/"/>' + id;
+			}
+		}
 	 $(document).ready(function(){
 		 processMessage();
 	 });

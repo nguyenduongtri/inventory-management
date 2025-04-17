@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import inventory.model.Paging;
 import inventory.model.Role;
 import inventory.service.MenuService;
 import inventory.service.RoleService;
+import inventory.util.Constant;
 
 @Controller
 public class MenuController {
@@ -57,5 +60,18 @@ public class MenuController {
 		model.addAttribute("roles", roles);
 
 		return "menu-list";
+	}
+
+	@GetMapping("/menu/change-status/{id}")
+	public String change(Model model, @PathVariable("id") int id, HttpSession session) {
+		try {
+			menuService.changeStatus(id);
+			session.setAttribute(Constant.MSG_SUCCESS, "Change status success!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute(Constant.MSG_SUCCESS, "Change status has error!!!");
+		}
+
+		return "redirect:/menu/list";
 	}
 }

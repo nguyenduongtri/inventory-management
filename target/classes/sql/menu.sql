@@ -32,4 +32,7 @@ insert into menu(parent_id,url,name,order_index) values (0,'/product','Sáº£n phá
 (3, '/user/save', 'Save', -1),
 (3, '/user/edit', 'Edit', -1),
 (3, '/user/view', 'View', -1),
-(3, '/user/add', 'Add', -1)
+(3, '/user/add', 'Add', -1),
+(3, '/menu/change-status', 'Update', -1),
+(3, '/menu/update-permission', 'Update', -1),
+(3, '/menu/permission', 'Permission', -1)

@@ -22,6 +22,7 @@ public class MenuService {
 	public List<Menu> getListMenu(Paging paging, Menu menu) {
 		log.info("show all menu");
 		StringBuilder queryStr = new StringBuilder();
+		queryStr.append(" or model.activeFlag=0");
 		Map<String, Object> mapParams = new HashMap<>();
 		if (menu != null) {
 			if (!StringUtils.isEmpty(menu.getUrl())) {
@@ -30,5 +31,13 @@ public class MenuService {
 			}
 		}
 		return menuDAO.findAll(queryStr.toString(), mapParams, paging);
+	}
+
+	public void changeStatus(Integer id) throws Exception {
+		Menu menu = menuDAO.findById(Menu.class, id);
+		if (menu != null) {
+			menu.setActiveFlag(menu.getActiveFlag() == 1 ? 0 : 1);
+			menuDAO.update(menu);
+		}
 	}
 }
